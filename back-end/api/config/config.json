@@ -2,8 +2,9 @@
   "development": {
     "username": "root",
     "password": "root",
-    "database": "escola_programacao",
-    "host": "127.0.0.1",
+    "database": "ecommerce",
+    "host": "localhost",
+    "port": "3306",
     "dialect": "mysql"
   },
   "test": {
