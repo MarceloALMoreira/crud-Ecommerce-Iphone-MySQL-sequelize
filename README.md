@@ -13,8 +13,10 @@ ecommerce iphone
 
 
 # Criando um modelo de migrate
-
 -- npx sequelize-cli model:create --name table --attributes nome:string,idade:number:cpf:number
+
+# Gerar um Seed
+npx sequelize-cli seed:generate --name demo-nomedaTable
 
 # para rodar as migrate 
 

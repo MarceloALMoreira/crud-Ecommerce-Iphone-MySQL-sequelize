@@ -16,6 +16,7 @@ class PessoaController {
 
         }
     }
+
     static async getPessoaId(req, res) {
         const { id } = req.params
         try {
@@ -25,6 +26,7 @@ class PessoaController {
             return res.status(500).json(error.message)
         }
     }
+
     static async createPessoa(req, res) {
         const NewPessoa = req.body
         try {
@@ -50,7 +52,6 @@ class PessoaController {
             return res.status(500).json(error.message)
         }
     }
-
 
     static async delPessoalId(req, res) {
         const { id } = req.params

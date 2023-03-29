@@ -6,8 +6,12 @@ module.exports = (sequelize, DataTypes) => {
   class Pessoas extends Model {
 
     static associate(models) {
-      Pessoas.hasMany(models.Turmas)
-      Pessoas.hasMany(models.Matriculas)
+      Pessoas.hasMany(models.Turmas, {
+        foreignKey: 'docente_id'
+      })
+      Pessoas.hasMany(models.Matriculas, {
+        foreignKey: 'estudante_id'
+      })
     }
   }
   Pessoas.init({
