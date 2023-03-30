@@ -11,7 +11,7 @@ class TurmaController {
 
         }
     }
-    static async getTurmaId(req, res) {
+    static async getIdTurma(req, res) {
         const { id } = req.params
         try {
             const Turma = await database.Turmas.findOne({ where: { id: Number(id) } })
@@ -21,6 +21,14 @@ class TurmaController {
             return res.status(500).json(error.message)
         }
     }
+    static async createTurma(req, res) {
 
+    }
+    static async updateTurma(req, res) {
+
+    }
+    static async deleteTurma(req, res) {
+
+    }
 }
 module.exports = TurmaController
