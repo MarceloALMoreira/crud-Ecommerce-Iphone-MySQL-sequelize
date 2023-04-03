@@ -61,6 +61,9 @@ class PessoaController {
         }
     }
 
+
+    // Metedos para  Matriculas
+
     static async getMatriculaId(req, res) {
         const { estudanteId, matriculaId } = req.params
         try {
@@ -72,10 +75,33 @@ class PessoaController {
     }
     static async createMatricula(req, res) {
         const { estudanteId } = req.params
-        const NewMatricula = { ...req.body, estudanteId: Number(estudanteId) }
+        const NewMatricula = { ...req.body, estudante_id: Number(estudanteId) }
         try {
             const CreatedMatricula = await database.Matriculas.create(NewMatricula)
             return res.status(200).json(CreatedMatricula)
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+    static async upMatricula(req, res) {
+        const { estudanteId, matriculaId } = req.params
+        const updateMatricula = req.body
+
+        try {
+            await database.Matriculas.update(updateMatricula, { where: { id: Number(matriculaId), estudante_id: Number(estudanteId) } }
+            )
+            const MatriculaAtualizada = await database.Matriculas.findOne({ where: { id: Number(matriculaId) } })
+            return res.status(200).json(MatriculaAtualizada)
+
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+    static async delMatriculaId(req, res) {
+        const { estudanteId, matriculaId } = req.params
+        try {
+            await database.Matriculas.destroy({ where: { id: Number(matriculaId) } })
+            return res.status(200).json({ message: `Matricula ${matriculaId} Deletado com sucesso!` })
         } catch (error) {
             return res.status(500).json(error.message)
         }
