@@ -10,5 +10,6 @@ router.post('/turmas', TurmaController.createTurma)
 router.put('/turmas/:id', TurmaController.updateTurma)
 router.delete('/turmas/:id', TurmaController.deleteTurma)
 
+router.post('/turmas/:id/restaura', TurmaController.restauraTurma)
 
 module.exports = router

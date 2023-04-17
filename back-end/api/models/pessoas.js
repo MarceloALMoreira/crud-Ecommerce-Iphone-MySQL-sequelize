@@ -21,6 +21,12 @@ module.exports = (sequelize, DataTypes) => {
     role: DataTypes.STRING
   }, {
     sequelize,
+    defaultScope: {
+      where: { ativo: true }
+    },
+    scopes: {
+      all: { where: {} }
+    },
     paranoid: true,
     modelName: 'Pessoas',
   });

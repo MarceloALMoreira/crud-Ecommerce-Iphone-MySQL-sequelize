@@ -10,6 +10,8 @@ router.post('/niveis', NivelController.createNivel)
 router.put('/niveis/:id', NivelController.updateNivel)
 router.delete('/niveis/:id', NivelController.deleteNivel)
 
+router.post('/niveis/:id/restaura', NivelController.restauraNivel)
+
 
 
 

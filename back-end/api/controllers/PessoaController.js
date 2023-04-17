@@ -5,9 +5,19 @@ const database = require('../models')
 //Criando a class Pessoas e seus Metedos
 class PessoaController {
 
-    static async getPessoas(req, res) {
+    static async getPessoasAtivo(req, res) {
         try {
             const AllPessoas = await database.Pessoas.findAll()
+            return res.status(200).json(AllPessoas)
+        } catch (error) {
+            return res.status(500).json(error.message)
+
+        }
+    }
+    
+    static async getAllPessoas(req, res) {
+        try {
+            const AllPessoas = await database.Pessoas.scope('all').findAll()
             return res.status(200).json(AllPessoas)
         } catch (error) {
             return res.status(500).json(error.message)
@@ -83,6 +93,7 @@ class PessoaController {
             return res.status(500).json(error.message)
         }
     }
+
     static async createMatricula(req, res) {
         const { estudanteId } = req.params
         const NewMatricula = { ...req.body, estudante_id: Number(estudanteId) }
@@ -93,6 +104,7 @@ class PessoaController {
             return res.status(500).json(error.message)
         }
     }
+
     static async upMatricula(req, res) {
         const { estudanteId, matriculaId } = req.params
         const updateMatricula = req.body
@@ -107,6 +119,7 @@ class PessoaController {
             return res.status(500).json(error.message)
         }
     }
+
     static async delMatriculaId(req, res) {
         const { estudanteId, matriculaId } = req.params
         try {
@@ -116,6 +129,7 @@ class PessoaController {
             return res.status(500).json(error.message)
         }
     }
+
     static async restauraMatricula(req, res) {
         const { estudanteId, matriculaId } = req.params
         try {
