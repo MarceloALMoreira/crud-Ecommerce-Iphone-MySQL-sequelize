@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Clientes extends Model {    
+  class Clientes extends Model {
     static associate(models) {
       // define association here
     }
@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     credito: DataTypes.FLOAT
   }, {
     sequelize,
+    paranoid: true,
     modelName: 'Clientes',
   });
   return Clientes;

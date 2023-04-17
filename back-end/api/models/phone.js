@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     preco: DataTypes.FLOAT
   }, {
     sequelize,
+    paranoid: true,
     modelName: 'Phone',
   });
   return Phone;
