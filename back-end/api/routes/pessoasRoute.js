@@ -5,6 +5,7 @@ const PessoaController = require('../controllers/PessoaController')
 const router = Router()
 
 router.get('/pessoas', PessoaController.getPessoasAtivo) //pegando as pessoas ativas no banco
+router.get('/pessoas/:estudanteId/matricula', PessoaController.getMatriculas)
 router.get('/pessoas/all', PessoaController.getAllPessoas) //pegando todas as pessoas ativas e inativas no banco
 router.get('/pessoas/:id', PessoaController.getPessoaId)
 router.post('/pessoas', PessoaController.createPessoa)

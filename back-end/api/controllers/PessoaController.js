@@ -14,7 +14,7 @@ class PessoaController {
 
         }
     }
-    
+
     static async getAllPessoas(req, res) {
         try {
             const AllPessoas = await database.Pessoas.scope('all').findAll()
@@ -121,7 +121,7 @@ class PessoaController {
     }
 
     static async delMatriculaId(req, res) {
-        const { estudanteId, matriculaId } = req.params
+        const { matriculaId } = req.params
         try {
             await database.Matriculas.destroy({ where: { id: Number(matriculaId) } })
             return res.status(200).json({ message: `Matricula ${matriculaId} Deletado com sucesso!` })
@@ -143,5 +143,17 @@ class PessoaController {
 
         }
     }
+
+    static async getMatriculas(req, res) {
+        const { estudanteId } = req.params
+        try {
+            const pessoa = await database.Pessoas.findOne({ where: { id: Number(estudanteId) } })
+            const matriculas = await pessoa.getAulasMatriculadas()
+            return res.status(200).json(matriculas)
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
 }
+
 module.exports = PessoaController
