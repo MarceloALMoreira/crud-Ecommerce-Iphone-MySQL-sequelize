@@ -1,4 +1,5 @@
 const database = require('../models')
+const Sequelize = require('sequelize')
 
 
 
@@ -136,8 +137,6 @@ class PessoaController {
             await database.Matricula.restore({ where: { id: Number(matriculaId), estudante_id: Number(estudanteId) } })
             return res.status(200).json({ message: `id ${id} restaurado com sucesso` })
 
-
-
         } catch (error) {
             return res.status(500).json(error.message)
 
@@ -153,6 +152,41 @@ class PessoaController {
         } catch (error) {
             return res.status(500).json(error.message)
         }
+    }
+
+    static async getMatriculasPorTurma(req, res) {
+        const { turmaId } = req.params
+        try {
+            const AllMatriculas = await database.Matriculas.findAndCountAll(
+                {
+                    where: { turma_id: Number(turmaId), status: 'confirmado' },
+                    limit: 10, order: [['estudante_id', 'ASC']]
+                })
+            return res.status(200).json(AllMatriculas)
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+    }
+
+    static async getTurmasLotes(req, res) {
+        const loteTurmas = 2
+        try {
+            const turmasLotes = await database.Matriculas
+                .findAndCountAll({
+                    where: {
+                        status: 'confirmado'
+                    },
+                    attributes: ['turma_id'],
+                    group: ['turma_id'],
+                    having: Sequelize.literal(`count(turma_id) >= ${loteTurmas}`)
+                })
+            return res.status(200).json(turmasLotes.count)
+
+
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
+
     }
 }
 

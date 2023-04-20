@@ -20,14 +20,6 @@ class TurmaController {
 
         }
     }
-    // {
-    //     where: {
-    //         data_inicio: {
-    //             [Op.gte]: data,
-    //                 [Op.lte]: data
-    //         }
-    //     }
-    // }
 
     static async getIdTurma(req, res) {
         const { id } = req.params
