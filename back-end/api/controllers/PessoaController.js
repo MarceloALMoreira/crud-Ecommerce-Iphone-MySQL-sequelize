@@ -1,6 +1,8 @@
 const database = require('../models')
-const Sequelize = require('sequelize')
+// const Sequelize = require('sequelize')
 
+const { PessoasServices } = require('../services')
+const pessoasServices = new PessoasServices()
 
 
 //Criando a class Pessoas e seus Metedos
@@ -8,8 +10,8 @@ class PessoaController {
 
     static async getPessoasAtivo(req, res) {
         try {
-            const AllPessoas = await database.Pessoas.findAll()
-            return res.status(200).json(AllPessoas)
+            const PessoasAtivas = await pessoasServices.getRegisterActiver()
+            return res.status(200).json(PessoasAtivas)
         } catch (error) {
             return res.status(500).json(error.message)
 
@@ -18,8 +20,8 @@ class PessoaController {
 
     static async getAllPessoas(req, res) {
         try {
-            const AllPessoas = await database.Pessoas.scope('all').findAll()
-            return res.status(200).json(AllPessoas)
+            const TodasPessoas = await pessoasServices.getAllRegisters()
+            return res.status(200).json(TodasPessoas)
         } catch (error) {
             return res.status(500).json(error.message)
 
@@ -192,13 +194,8 @@ class PessoaController {
     static async CancelaPessoa(req, res) {
         const { estudanteId } = req.params
         try {
-            database.sequelize.transaction(async transacao => {
-                await database.Pessoas.
-                    update({ ativo: false }, { where: { id: Number(estudanteId) } }, { transaction: transacao })
-                await database.Matriculas.
-                    update({ status: 'cancelado' }, { where: { estudante_id: Number(estudanteId) } }, { transaction: transacao })
-                return res.status(200).json({ message: `Matriculas ref. estudante ${estudanteId} canceladas` })
-            })
+            await pessoasServices.cancelaPessoaEMatriculas(Number(estudanteId))
+            return res.status(200).json({ message: `Matriculas ref. estudante ${estudanteId} canceladas` })
         } catch (error) {
             return res.status(500).json(error.message)
         }
