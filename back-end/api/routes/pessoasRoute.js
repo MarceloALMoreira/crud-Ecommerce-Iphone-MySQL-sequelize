@@ -11,6 +11,7 @@ router.get('/pessoas/matricula/lotada', PessoaController.getTurmasLotes)
 router.get('/pessoas/all', PessoaController.getAllPessoas) //pegando todas as pessoas ativas e inativas no banco
 router.get('/pessoas/:id', PessoaController.getPessoaId)
 router.post('/pessoas', PessoaController.createPessoa)
+router.post('/pessoas/:estudanteId/cancela', PessoaController.CancelaPessoa)
 router.put('/pessoas/:id', PessoaController.upPessoas)
 router.delete('/pessoas/:id', PessoaController.delPessoalId)
 

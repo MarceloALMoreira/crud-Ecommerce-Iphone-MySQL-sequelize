@@ -134,12 +134,15 @@ class PessoaController {
     static async restauraMatricula(req, res) {
         const { estudanteId, matriculaId } = req.params
         try {
-            await database.Matricula.restore({ where: { id: Number(matriculaId), estudante_id: Number(estudanteId) } })
-            return res.status(200).json({ message: `id ${id} restaurado com sucesso` })
-
+            await database.Matriculas.restore({
+                where: {
+                    id: Number(matriculaId),
+                    estudante_id: Number(estudanteId)
+                }
+            })
+            return res.status(200).json({ mensagem: `id ${matriculaId} restaurado` })
         } catch (error) {
             return res.status(500).json(error.message)
-
         }
     }
 
@@ -181,12 +184,24 @@ class PessoaController {
                     having: Sequelize.literal(`count(turma_id) >= ${loteTurmas}`)
                 })
             return res.status(200).json(turmasLotes.count)
-
-
         } catch (error) {
             return res.status(500).json(error.message)
         }
+    }
 
+    static async CancelaPessoa(req, res) {
+        const { estudanteId } = req.params
+        try {
+            database.sequelize.transaction(async transacao => {
+                await database.Pessoas.
+                    update({ ativo: false }, { where: { id: Number(estudanteId) } }, { transaction: transacao })
+                await database.Matriculas.
+                    update({ status: 'cancelado' }, { where: { estudante_id: Number(estudanteId) } }, { transaction: transacao })
+                return res.status(200).json({ message: `Matriculas ref. estudante ${estudanteId} canceladas` })
+            })
+        } catch (error) {
+            return res.status(500).json(error.message)
+        }
     }
 }
 
